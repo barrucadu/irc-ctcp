@@ -1,20 +1,20 @@
 -- |Functions for encoding and decoding CTCPs.
 module Network.IRC.CTCP
-    ( -- *Types
-      CTCPByteString
-    , getUnderlyingByteString
+  ( -- *Types
+    CTCPByteString
+  , getUnderlyingByteString
 
-    -- *Encoding and decoding
-    , toCTCP
-    , fromCTCP
-    , encodeCTCP
-    , decodeCTCP
+  -- *Encoding and decoding
+  , toCTCP
+  , fromCTCP
+  , encodeCTCP
+  , decodeCTCP
 
-    -- *Utilities
-    , isCTCP
-    , asCTCP
-    , orCTCP
-    ) where
+  -- *Utilities
+  , isCTCP
+  , asCTCP
+  , orCTCP
+  ) where
 
 import Data.ByteString    (ByteString, pack, singleton, unpack)
 import Data.List          (mapAccumL)
@@ -29,7 +29,7 @@ import qualified Data.Text       as T
 
 -- |Type representing a CTCP-encoded bytestring.
 newtype CTCPByteString = CBS ByteString
-    deriving (Eq, Show)
+  deriving (Eq, Show)
 
 -- |Get the underlying (encoded) bytestring from a CTCP bytestring.
 getUnderlyingByteString :: CTCPByteString -> ByteString
@@ -46,15 +46,17 @@ toCTCP cmd args = encodeCTCP . encodeUtf8 . T.unwords $ cmd : args
 encodeCTCP :: ByteString -> CTCPByteString
 encodeCTCP bs = CBS $ singleton soh <> escape bs <> singleton soh
 
-    where escape = B.concatMap escape'
-          escape' x = case lookup x encodings of
-                        -- If there is an encoding, escape it and use
-                        -- that.
-                        Just x' -> pack [esc, x']
+-- |Escape a bytestring according to the CTCP spec.
+escape :: ByteString -> ByteString
+escape = B.concatMap escape'
+  where
+    escape' x =
+      case lookup x encodings of
+        -- If there is an encoding, escape it and use that.
+        Just x' -> pack [esc, x']
 
-                        -- Otherwise, just return the original
-                        -- character.
-                        Nothing -> singleton x
+        -- Otherwise, just return the original character.
+        Nothing -> singleton x
 
 -- |Decode a CTCP-encoded bytestring and turn it into a command name
 -- and arguments.
@@ -62,24 +64,26 @@ encodeCTCP bs = CBS $ singleton soh <> escape bs <> singleton soh
 -- This decodes the text with UTF-8. If another encoding is desired,
 -- 'decodeCTCP' should be used directly.
 fromCTCP :: CTCPByteString -> (Text, [Text])
-fromCTCP bs = case splitOn (T.pack " ") . decodeUtf8 . decodeCTCP $ bs of
-                (cmd : args) -> (cmd, args)
-                _            -> (T.pack "", [])
+fromCTCP bs =
+  case splitOn (T.pack " ") . decodeUtf8 . decodeCTCP $ bs of
+    (cmd : args) -> (cmd, args)
+    _            -> (T.pack "", [])
 
 -- |Decode a CTCP bytestring. Extraeneous escapes are dropped.
 decodeCTCP :: CTCPByteString -> ByteString
 decodeCTCP (CBS bs) = unescape . B.tail . B.init $ bs
 
-    where unescape = pack . catMaybes . snd . mapAccumL step False . unpack
+-- |Unescape a bytestring according to the CTCP spec. Extraeneous escapes are dropped.
+unescape :: ByteString -> ByteString
+unescape = pack . catMaybes . snd . mapAccumL step False . unpack
+  where
+    -- If we fail to find a decoding, ignore the escape.
+    step True x = (False, Just . fromMaybe x $ lookup x decodings)
 
-          -- If we fail to find a decoding, ignore the escape.
-          step True x = (False, Just . fromMaybe x $ lookup x decodings)
+    -- Enter escape mode, this doesn't add a character to the output.
+    step False 0o020 = (True, Nothing)
 
-          -- Enter escape mode, this doesn't add a character to the
-          -- output.
-          step False 0o020 = (True, Nothing)
-
-          step _ x = (False, Just x)
+    step _ x = (False, Just x)
 
 soh :: Integral i => i
 soh = 0o001
@@ -88,11 +92,12 @@ esc :: Integral i => i
 esc = 0o020
 
 encodings :: Integral i => [(i, i)]
-encodings = [ (0o000, 0o060)
-            , (0o012, 0o156)
-            , (0o015, 0o162)
-            , (0o020, 0o020)
-            ]
+encodings =
+  [ (0o000, 0o060)
+  , (0o012, 0o156)
+  , (0o015, 0o162)
+  , (0o020, 0o020)
+  ]
 
 decodings :: Integral i => [(i, i)]
 decodings = map swap encodings
@@ -111,9 +116,10 @@ isCTCP bs = and $ (B.length bs >= 2) : (B.head bs == soh) : (B.last bs == soh) :
 --
 -- This uses 'isCTCP', and so is lenient with escapes.
 asCTCP :: ByteString -> Maybe CTCPByteString
-asCTCP bs = if isCTCP bs
-            then Just $ CBS bs
-            else Nothing
+asCTCP bs =
+  if isCTCP bs
+  then Just $ CBS bs
+  else Nothing
 
 -- |Apply one of two functions depending on whether the bytestring
 -- looks like a CTCP or not.
