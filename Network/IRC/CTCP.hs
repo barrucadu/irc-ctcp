@@ -19,6 +19,7 @@ module Network.IRC.CTCP
 import Data.ByteString    (ByteString, pack, singleton, unpack)
 import Data.List          (mapAccumL)
 import Data.Maybe         (catMaybes, fromMaybe)
+import Data.Monoid        ((<>))
 import Data.Text          (Text, splitOn)
 import Data.Text.Encoding (decodeUtf8, encodeUtf8)
 import Data.Tuple         (swap)
@@ -43,10 +44,7 @@ toCTCP cmd args = encodeCTCP . encodeUtf8 . T.unwords $ cmd : args
 
 -- |Encode a bytestring according to the CTCP spec.
 encodeCTCP :: ByteString -> CTCPByteString
-encodeCTCP bs = CBS $ B.concat [ singleton soh
-                               , escape bs
-                               , singleton soh
-                               ]
+encodeCTCP bs = CBS $ singleton soh <> escape bs <> singleton soh
 
     where escape = B.concatMap escape'
           escape' x = case lookup x encodings of
