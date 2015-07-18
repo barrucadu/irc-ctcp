@@ -100,7 +100,7 @@ library
   -- other-extensions:    
   
   -- Other library packages from which modules are imported.
-  build-depends:       base       >=4.7 && <5
+  build-depends:       base       >=4.5 && <5
                      , bytestring >=0.10
                      , text       >=1.1
   
