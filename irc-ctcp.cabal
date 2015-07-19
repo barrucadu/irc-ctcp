@@ -62,7 +62,7 @@ homepage:            https://github.com/barrucadu/irc-ctcp
 bug-reports:         https://github.com/barrucadu/irc-ctcp/issues
 
 -- The license under which the package is released.
-license:             OtherLicense
+license:             MIT
 
 -- The file containing the license text.
 license-file:        LICENSE
