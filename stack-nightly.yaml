@@ -1,0 +1,10 @@
+flags: {}
+packages:
+- '.'
+extra-deps: []
+
+# Stack doesn't support using the latest nightly as a resolver yet,
+# see issues 115 and 390. So for now this is hard coded and I'll bump
+# it whenever I change something else.
+
+resolver: nightly-2015-07-30
