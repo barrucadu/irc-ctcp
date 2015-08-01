@@ -61,15 +61,6 @@ homepage:            https://github.com/barrucadu/irc-ctcp
 -- URL where users should direct bug reports.
 bug-reports:         https://github.com/barrucadu/irc-ctcp/issues
 
-source-repository head
-  type:     git
-  location: https://github.com/barrucadu/irc-ctcp.git
-
-source-repository this
-  type:     git
-  location: https://github.com/barrucadu/irc-ctcp.git
-  tag:      0.1.3.0
-
 -- The license under which the package is released.
 license:             MIT
 
@@ -118,3 +109,11 @@ library
   -- Base language which the package is written in.
   default-language:    Haskell2010
   
+source-repository head
+  type:     git
+  location: https://github.com/barrucadu/irc-ctcp.git
+
+source-repository this
+  type:     git
+  location: https://github.com/barrucadu/irc-ctcp.git
+  tag:      0.1.3.0
