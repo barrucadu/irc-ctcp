@@ -27,8 +27,8 @@ Feel free to contact me on GitHub, through IRC (#haskell on freenode),
 or email (mike@barrucadu.co.uk).
 
 [irc-ctcp]:     https://hackage.haskell.org/package/irc-ctcp
-[build-status]: http://ci.barrucadu.co.uk/job/irc-ctcp%20(lts)/badge/icon?style=plastic
-[build-log]:    http://ci.barrucadu.co.uk/job/irc-ctcp%20(lts)/
+[build-status]: http://ci.barrucadu.co.uk/job/(irc-ctcp)/job/irc-ctcp/badge/icon?style=plastic
+[build-log]:    http://ci.barrucadu.co.uk/job/(irc-ctcp)/job/irc-ctcp/
 [docs]:         https://barrucadu.github.io/irc-ctcp/
 [ctcpspec]:     http://www.irchelp.org/irchelp/rfc/ctcpspec.html
 [yukibot]:      https://github.com/barrucadu/yukibot
