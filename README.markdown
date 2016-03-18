@@ -29,6 +29,6 @@ or email (mike@barrucadu.co.uk).
 [irc-ctcp]:     https://hackage.haskell.org/package/irc-ctcp
 [build-status]: http://ci.barrucadu.co.uk/job/(irc-ctcp)/job/irc-ctcp/badge/icon?style=plastic
 [build-log]:    http://ci.barrucadu.co.uk/job/(irc-ctcp)/job/irc-ctcp/
-[docs]:         https://barrucadu.github.io/irc-ctcp/
+[docs]:         https://docs.barrucadu.co.uk/irc-ctcp
 [ctcpspec]:     http://www.irchelp.org/irchelp/rfc/ctcpspec.html
 [yukibot]:      https://github.com/barrucadu/yukibot
