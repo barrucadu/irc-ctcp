@@ -16,16 +16,16 @@ module Network.IRC.CTCP
   , orCTCP
   ) where
 
-import Data.ByteString    (ByteString, pack, singleton, unpack)
-import Data.List          (mapAccumL)
-import Data.Maybe         (catMaybes, fromMaybe)
-import Data.Monoid        ((<>))
-import Data.Text          (Text, splitOn)
-import Data.Text.Encoding (decodeUtf8, encodeUtf8)
-import Data.Tuple         (swap)
+import           Data.ByteString    (ByteString, pack, singleton, unpack)
+import           Data.List          (mapAccumL)
+import           Data.Maybe         (catMaybes, fromMaybe)
+import           Data.Monoid        ((<>))
+import           Data.Text          (Text, splitOn)
+import           Data.Text.Encoding (decodeUtf8, encodeUtf8)
+import           Data.Tuple         (swap)
 
-import qualified Data.ByteString as B
-import qualified Data.Text       as T
+import qualified Data.ByteString    as B
+import qualified Data.Text          as T
 
 -- |Type representing a CTCP-encoded bytestring.
 newtype CTCPByteString = CBS ByteString
